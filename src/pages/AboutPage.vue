@@ -1,0 +1,135 @@
+<script setup lang="ts">
+import PageHero from "../components/PageHero.vue";
+import ScrollReveal from "../components/ScrollReveal.vue";
+import TitleReveal from "../components/TitleReveal.vue";
+import ScrollFillText from "../components/ScrollFillText.vue";
+import { team } from "../data/team";
+import { company } from "../data/company";
+
+const principles = [
+  {
+    title: "Date first.",
+    copy: "The handover date is written into the contract. Early, or we pay.",
+  },
+  {
+    title: "Show the work.",
+    copy: "Buyers receive monthly photo and video reports. Material swaps need written approval.",
+  },
+  {
+    title: "Stay after handover.",
+    copy: "A named customer care contact stays with each buyer through year two. Structural and fit out warranties are in place.",
+  },
+];
+const partners = [
+  "Atelier Rhein · Architecture",
+  "Studio Maren · Architecture",
+  "Northline · Engineering",
+  "Meridian Structural · Engineering",
+  "Fieldmark · Inspection",
+];
+</script>
+
+<template>
+  <div>
+    <PageHero
+      eyebrow="About"
+      title="Built by people who stay until handover."
+    />
+    <section
+      class="mx-auto grid w-full max-w-[90rem] gap-10 px-6 pb-20 md:grid-cols-12 md:px-12 md:pb-32"
+    >
+      <ScrollReveal mask class="md:col-span-5">
+        <img
+          src="/img/philosophy.avif"
+          alt="Concept image of a finished home interior"
+          loading="lazy"
+          class="aspect-[4/5] w-full object-cover"
+        />
+      </ScrollReveal>
+      <ScrollReveal
+        class="flex flex-col justify-center md:col-span-6 md:col-start-7"
+      >
+        <p class="eyebrow mb-6">Our story</p>
+        <TitleReveal
+          as="h2"
+          class="font-display headline font-light"
+          :lines="[
+            { text: `Founded in ${company.founded} in ${company.foundedIn}.` },
+          ]"
+        />
+        <ScrollFillText
+          class="mt-8 text-sm leading-relaxed"
+          text="The founder waited two years past a promised date for his first home. VÉRÉN exists so buyers do not."
+        />
+        <p class="mt-5 text-xs text-muted">Fictional concept history.</p>
+      </ScrollReveal>
+    </section>
+
+    <section class="bg-raised py-20 md:py-32">
+      <div class="mx-auto w-full max-w-[90rem] px-6 md:px-12">
+        <p class="eyebrow mb-10">How we work</p>
+        <div class="grid gap-10 md:grid-cols-3">
+          <ScrollReveal
+            v-for="(principle, index) in principles"
+            :key="principle.title"
+          >
+            <p class="eyebrow text-sand">0{{ index + 1 }}</p>
+            <h2 class="mt-4 font-display text-3xl md:text-4xl">
+              {{ principle.title }}
+            </h2>
+            <p class="mt-4 text-sm leading-relaxed text-muted">
+              {{ principle.copy }}
+            </p>
+          </ScrollReveal>
+        </div>
+      </div>
+    </section>
+
+    <section class="mx-auto w-full max-w-[90rem] px-6 py-20 md:px-12 md:py-32">
+      <p class="eyebrow mb-6">The team</p>
+      <TitleReveal
+        as="h2"
+        class="font-display headline font-light"
+        :lines="[{ text: 'People who stay through handover.' }]"
+      />
+      <div class="mt-10 grid gap-6 sm:grid-cols-2 md:grid-cols-4">
+        <article v-for="(person, index) in team" :key="person.name">
+          <div class="aspect-[4/5] overflow-hidden bg-raised">
+            <img
+              :src="
+                [
+                  '/img/facade.avif',
+                  '/img/maison.avif',
+                  '/img/residences.avif',
+                  '/img/skyline.avif',
+                ][index]
+              "
+              alt=""
+              loading="lazy"
+              class="size-full object-cover grayscale hover:grayscale-0 duration-300 ease-in-out transition-all hover:scale-105"
+            />
+          </div>
+          <h3 class="mt-4 font-display text-2xl">{{ person.name }}</h3>
+          <p class="mt-1 text-xs text-muted">{{ person.role }}</p>
+          <p class="mt-2 text-[10px] text-muted">Fictional concept profile.</p>
+        </article>
+      </div>
+    </section>
+
+    <section
+      class="border-t border-ivory/10 py-16 md:py-20"
+      aria-labelledby="partners-heading"
+    >
+      <div class="mx-auto w-full max-w-[90rem] px-6 md:px-12">
+        <p class="eyebrow mb-6">Partners</p>
+        <h2 id="partners-heading" class="sr-only">Concept project partners</h2>
+        <ul class="grid gap-5 text-sm text-muted sm:grid-cols-2 md:grid-cols-5">
+          <li v-for="partner in partners" :key="partner">{{ partner }}</li>
+        </ul>
+        <p class="mt-6 text-xs text-muted">
+          Fictional concept names. No partner endorsements are implied.
+        </p>
+      </div>
+    </section>
+  </div>
+</template>

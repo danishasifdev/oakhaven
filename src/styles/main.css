@@ -1,0 +1,22 @@
+@import "tailwindcss";
+@theme {
+  --color-ink: #10110F; --color-raised: #191A17; --color-ivory: #F0EDE5;
+  --color-muted: #A6A399; --color-sand: #B8A995;
+  --font-display: "Cormorant Garamond", Georgia, serif;
+  --font-body: Manrope, system-ui, sans-serif;
+}
+html { background: #10110F; color-scheme: dark; }
+body { background: var(--color-ink); color: var(--color-ivory); font-family: var(--font-body); -webkit-font-smoothing: antialiased; }
+body { font-size: 15px; line-height: 1.7; }
+:focus-visible { outline: 2px solid #B8A995; outline-offset: 4px; }
+.eyebrow { font-size: 11px; letter-spacing: .28em; text-transform: uppercase; color: var(--color-muted); }
+.headline { font-size: clamp(2.5rem, 6vw, 5.5rem); line-height: 1.05; }
+.skip-link { position: fixed; top: 1rem; left: 1rem; z-index: 100; transform: translateY(-160%); background: var(--color-sand); color: var(--color-ink); padding: .75rem 1rem; }
+.skip-link:focus { transform: translateY(0); }
+.form-field { width: 100%; min-height: 44px; border: 0; border-bottom: 1px solid rgb(240 237 229 / 25%); background: transparent; padding: .75rem 0; color: var(--color-ivory); outline: none; }
+.form-field:focus { border-color: var(--color-sand); }
+.form-field[aria-invalid="true"] { border-color: var(--color-sand); }
+textarea.form-field { resize: vertical; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
