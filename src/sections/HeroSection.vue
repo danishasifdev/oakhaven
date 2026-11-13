@@ -15,7 +15,7 @@ import Eyebrow from '../components/Eyebrow.vue'
 
 gsap.registerPlugin(ScrollTrigger)
 
-// Concept footage: public/video/veren (1280×720, 24 fps, 10.1 s), sampled at
+// Concept footage: public/video/oakhaven (1280×720, 24 fps, 10.1 s), sampled at
 // its native 24 fps into a local AVIF sequence (public/img/frames, native
 // 1280w) so scrolling steps a frame every ~0.42% of the pin instead of every
 // ~0.83%. The clip moves from earthworks through structure, facade and

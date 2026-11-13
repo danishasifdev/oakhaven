@@ -23,7 +23,7 @@ import SectionTitle from "../components/SectionTitle.vue";
       />
       <ScrollFillText
         class="mt-8 max-w-md text-sm leading-relaxed"
-        text="Every VÉRÉN contract names a handover date. Nine times we have reached it early. We publish every date we promised next to the date we delivered."
+        text="Every Oakhaven contract names a handover date. Nine times we have reached it early. We publish every date we promised next to the date we delivered."
       />
       <ScrollReveal :delay="0.2">
         <AppButton to="/record" variant="link" class="mt-8">

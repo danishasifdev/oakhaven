@@ -99,7 +99,7 @@ const submit = () => {
         <div>
           <h2 class="text-ivory">Sales gallery</h2>
           <p class="mt-2 text-muted">
-            VÉRÉN Sales Gallery<br />Palm Jumeirah, Dubai, UAE
+            Oakhaven Sales Gallery<br />Palm Jumeirah, Dubai, UAE
           </p>
           <p class="mt-2 text-xs text-muted">
             Concept address; fictional contact details.
@@ -109,8 +109,8 @@ const submit = () => {
           <h2 class="text-ivory">Enquiries</h2>
           <a
             class="mt-2 flex min-h-11 items-center text-muted"
-            href="mailto:hello@veren.example"
-            >hello@veren.example</a
+            href="mailto:hello@oakhaven.example"
+            >hello@oakhaven.example</a
           >
           <a
             class="flex min-h-11 items-center text-muted"
@@ -127,7 +127,7 @@ const submit = () => {
           <p class="mt-2 text-muted">Customer care · {{ ownerCareLead?.name }}</p>
           <a
             class="mt-2 inline-flex min-h-11 items-center border-b border-sand text-sand"
-            href="mailto:hello@veren.example?subject=Customer%20care"
+            href="mailto:hello@oakhaven.example?subject=Customer%20care"
           >
             Contact customer care
           </a>

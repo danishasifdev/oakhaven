@@ -56,7 +56,7 @@ const partners = [
         />
         <ScrollFillText
           class="mt-8 text-sm leading-relaxed"
-          text="The founder waited two years past a promised date for his first home. VÉRÉN exists so buyers do not."
+          text="The founder waited two years past a promised date for his first home. Oakhaven exists so buyers do not."
         />
         <p class="mt-5 text-xs text-muted">Fictional concept history.</p>
       </ScrollReveal>

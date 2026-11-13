@@ -1,4 +1,4 @@
-# VÉRÉN: Detailed Build Brief
+# OAKHAVEN: Detailed Build Brief
 
 Read this whole file before writing any code. Follow it in order. Do not invent content that is not here. If something is missing ask one question and wait.
 
@@ -17,9 +17,9 @@ Read this whole file before writing any code. Follow it in order. Do not invent 
 
 ## 1. The idea
 
-**VÉRÉN is a developer that delivers.**
+**Oakhaven is a developer that delivers.**
 
-Luxury property has a trust problem. Buyers commit years before they get keys. Many developers hand over late and smaller than the render. VÉRÉN's whole brand is the opposite. We promise a date. We hand over on that date. We can show the proof.
+Luxury property has a trust problem. Buyers commit years before they get keys. Many developers hand over late and smaller than the render. Oakhaven's whole brand is the opposite. We promise a date. We hand over on that date. We can show the proof.
 
 The brand line stays: **A different perspective on living.**
 The proof line (used as the hero sub line and repeated in the footer): **Nine homes delivered. Nine on time.**
@@ -76,7 +76,7 @@ Treat all of this as fictional. It is the single source of truth. Put it in `src
 
 ### 3.1 Company
 
-- Name: VÉRÉN
+- Name: Oakhaven
 - Founded: 2008 in Dubai
 - Developments: 12 total. 9 delivered. 3 in progress.
 - Homes handed over: 2,140
@@ -213,7 +213,7 @@ Route `/`. Components in `src/sections/`. Build each one fully before moving on.
 
 - Eyebrow: `01 · Our promise`
 - Headline: `We promise a date.` then italic muted `And we hand over on it.`
-- Body: `Every VÉRÉN contract names a handover date. Nine times we have reached it early. We publish every date we promised next to the date we delivered.`
+- Body: `Every Oakhaven contract names a handover date. Nine times we have reached it early. We publish every date we promised next to the date we delivered.`
 - Link: `See the full record →` goes to `/record`
 
 **Image:** a real finished delivered building in daylight with a hand over keys moment or the facade detail. Mask reveal on enter.
@@ -303,14 +303,14 @@ Three short quotes from section 3.6 in a calm row. Display type italic. Under ea
 
 ### 4.8 Footer — Implemented; build not verified (AppFooter.vue)
 
-**Layout:** oversized `VÉRÉN` wordmark as a background element in sand at 15 percent opacity. Links layered above.
+**Layout:** oversized `OAKHAVEN` wordmark as a background element in sand at 15 percent opacity. Links layered above.
 
 **Content**
 
 - Closing line in display type: `Nine homes delivered. Nine on time.`
 - Left links: Developments. Record. About. Locations.
 - Right links: Instagram. LinkedIn. YouTube. Button `Request a viewing` goes to `/contact`.
-- Small line: `© 2026 VÉRÉN. Concept project. All names and figures are fictional.`
+- Small line: `© 2026 Oakhaven. Concept project. All names and figures are fictional.`
 
 **Motion:** the wordmark rises and scales from 0.92 to 1 as the footer enters.
 
@@ -354,7 +354,7 @@ Order of sections:
 ### 5.4 About — Implemented; build not verified `/about`
 
 - Headline: `Built by people who stay until handover.`
-- Section 1: Story. Founded 2008. The reason: the founder waited two years past a promised date on his own first home. VÉRÉN exists so buyers do not. (Fictional.)
+- Section 1: Story. Founded 2008. The reason: the founder waited two years past a promised date on his own first home. Oakhaven exists so buyers do not. (Fictional.)
 - Section 2: Three principles. `Date first.` `Show the work.` `Stay after handover.` Each with two sentences.
 - Section 3: Team grid with the four people. Name. Role. One line. Use portrait placeholders in a consistent crop.
 - Section 4: Partners. A simple row of five fictional names: architects. engineering. inspection. Do not use real brand logos.
