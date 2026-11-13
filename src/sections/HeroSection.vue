@@ -1,11 +1,5 @@
-<script lang="ts">
-// Module scope, so it is remembered for the lifetime of the page: the
-// opening sequence auto-plays once per visit, not on every route change.
-let playedThisVisit = false
-</script>
-
 <script setup lang="ts">
-import { computed, onMounted, onBeforeUnmount, ref, watch } from 'vue'
+import { computed, onMounted, onBeforeUnmount, ref } from 'vue'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useReducedMotion } from '../composables/useReducedMotion'
@@ -88,11 +82,11 @@ const hintOpacity = computed(() => (reduced.value ? 1 : Math.min(1, Math.max(0, 
 let ctx: gsap.Context | undefined
 let pinTrigger: ScrollTrigger | undefined
 
-// Scroll position sets a target; the playhead closes that gap at no more than
-// ~48 frames per second, so even a violent flick plays the build through in
-// order instead of skipping ahead. Easing keeps ordinary scrolling responsive.
+// Scroll position sets a target; the playhead closes that gap with easing, so
+// even a fast flick plays the build through in order instead of skipping
+// frames. The cap only limits how quickly one jump crosses the sequence.
 const PLAYHEAD_TIME_CONSTANT = 0.32
-const MAX_PROGRESS_PER_SECOND = 0.2
+const MAX_PROGRESS_PER_SECOND = 2
 let targetProgress = 0
 let lastTick = 0
 let autoplay: gsap.core.Tween | undefined
@@ -117,23 +111,33 @@ const followPlayhead = () => {
   seek(progress.value)
 }
 
-// --- Opening sequence -------------------------------------------------------
-// When the hero first comes into view, the build sequence plays by itself
-// and the scrollbar moves with it, like a video section that scrolls itself
-// into the page. Any scroll input — wheel, touch, key, or grabbing the
-// scrollbar — stops it instantly and hands control back.
-let autoStart: gsap.core.Tween | undefined
-let userTookControl = false
+// The scroll button plays the build without making the visitor scrub. Any
+// scroll input during playback — wheel, touch, key, or grabbing the scrollbar
+// — stops it instantly and hands control back to the scroll position.
+let inputAttached = false
+
+const detachInput = () => {
+  if (!inputAttached) return
+  inputAttached = false
+  window.removeEventListener('wheel', onUserInput)
+  window.removeEventListener('touchstart', onUserInput)
+  window.removeEventListener('keydown', onUserInput)
+}
+
+const onUserInput = () => stopAutoplay()
+
+const attachInput = () => {
+  if (inputAttached) return
+  inputAttached = true
+  window.addEventListener('wheel', onUserInput, { passive: true })
+  window.addEventListener('touchstart', onUserInput, { passive: true })
+  window.addEventListener('keydown', onUserInput)
+}
 
 const stopAutoplay = () => {
   autoplay?.kill()
   autoplay = undefined
-}
-
-const onUserInput = () => {
-  userTookControl = true
-  autoStart?.kill()
-  stopAutoplay()
+  detachInput()
 }
 
 const scrollDown = () => {
@@ -161,8 +165,9 @@ const playThrough = () => {
     commanded = pinEnd
     window.scrollTo(0, pinEnd)
     autoplay = undefined
-    playedThisVisit = true
+    detachInput()
   }
+  attachInput()
   autoplay = gsap.to(state, {
     p: 1,
     duration: FRAME_COUNT / FRAMES_PER_SECOND,
@@ -182,22 +187,9 @@ const playThrough = () => {
   })
 }
 
-watch(ready, (isReady) => {
-  if (!isReady) return
-  autoStart?.kill()
-  autoStart = gsap.delayedCall(0.8, () => {
-    // Auto-play only on the first visit, only while the hero is in view at
-    // the top of the page, and only if the visitor has not scrolled yet.
-    if (!userTookControl && !playedThisVisit && !autoplay && window.scrollY <= 4) playThrough()
-  })
-})
-
 onMounted(() => {
   if (reduced.value) return
   start()
-  window.addEventListener('wheel', onUserInput, { passive: true })
-  window.addEventListener('touchstart', onUserInput, { passive: true })
-  window.addEventListener('keydown', onUserInput)
 
   const shorterPin = window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 1280
   ctx = gsap.context(() => {
@@ -223,10 +215,6 @@ onBeforeUnmount(() => {
   pinTrigger?.kill()
   gsap.ticker.remove(followPlayhead)
   stopAutoplay()
-  autoStart?.kill()
-  window.removeEventListener('wheel', onUserInput)
-  window.removeEventListener('touchstart', onUserInput)
-  window.removeEventListener('keydown', onUserInput)
 })
 </script>
 
