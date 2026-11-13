@@ -1,24 +1,34 @@
 <script setup lang="ts">
 import { nextTick, onBeforeUnmount, onMounted, ref, watch } from "vue";
 import { useRoute } from "vue-router";
+import { primaryNav } from "../data/navigation";
 
 const open = ref(false);
 const scrolled = ref(false);
+const overHero = ref(false);
 const route = useRoute();
+const header = ref<HTMLElement>();
 const menuButton = ref<HTMLButtonElement>();
 const menu = ref<HTMLElement>();
-const links = [
-  ["Developments", "/developments"],
-  ["Record", "/record"],
-  ["About", "/about"],
-  ["Locations", "/locations"],
-  ["Contact", "/contact"],
-] as const;
 
-// The navbar floats over the hero at rest and turns into a solid bar as soon
-// as the visitor scrolls, so it stays legible over any imagery below.
+// The navbar floats over the hero at rest. Once the page is scrolled it frosts
+// the hero footage, then turns into a solid bar for the editorial sections that
+// follow, so it stays legible over any background.
+const overHeroVideo = () => {
+  const hero = document.querySelector("#top");
+  if (!(hero instanceof HTMLElement)) {
+    overHero.value = false;
+    return;
+  }
+  const rect = hero.getBoundingClientRect();
+  // Match the bar exactly: the frost lasts while any video sits behind it.
+  const height = header.value?.offsetHeight ?? 72;
+  overHero.value = rect.top <= height && rect.bottom > height;
+};
+
 const onScroll = () => {
   scrolled.value = window.scrollY > 32;
+  overHeroVideo();
 };
 
 const onKeydown = (event: KeyboardEvent) => {
@@ -57,12 +67,14 @@ const onDesktop = () => {
 
 onMounted(() => {
   window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onScroll);
   onScroll();
   desktop.addEventListener("change", onDesktop);
 });
 
 onBeforeUnmount(() => {
   window.removeEventListener("scroll", onScroll);
+  window.removeEventListener("resize", onScroll);
   window.removeEventListener("keydown", onKeydown);
   desktop.removeEventListener("change", onDesktop);
   document.documentElement.style.overflow = "";
@@ -70,7 +82,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <header class="fixed inset-x-0 top-0 z-50">
+  <header ref="header" class="fixed inset-x-0 top-0 z-50">
     <!-- At rest a soft wash keeps the links readable over bright footage; it
          cross-fades into a solid bar once the page is scrolled. -->
     <div
@@ -82,7 +94,9 @@ onBeforeUnmount(() => {
       class="absolute inset-0 border-b transition-colors duration-300"
       :class="
         scrolled || open
-          ? 'border-ivory/10 bg-ink/85'
+          ? overHero && !open
+            ? 'border-ivory/10 bg-ink/45 backdrop-blur-xl'
+            : 'border-ivory/10 bg-ink/85'
           : 'border-transparent bg-transparent'
       "
       aria-hidden="true"
@@ -101,12 +115,12 @@ onBeforeUnmount(() => {
         aria-label="Primary"
       >
         <RouterLink
-          v-for="[label, to] in links"
-          :key="to"
-          :to="to"
-          class="transition-colors hover:text-sand border-b border-transparent hover:border-sand"
+          v-for="item in primaryNav"
+          :key="item.to"
+          :to="item.to"
+          class="border-b border-transparent transition-colors hover:border-sand hover:text-sand"
           active-class="text-sand"
-          >{{ label }}</RouterLink
+          >{{ item.label }}</RouterLink
         >
       </nav>
       <button
@@ -122,43 +136,34 @@ onBeforeUnmount(() => {
           :class="open ? 'translate-y-[3.5px] rotate-45' : ''"
         />
         <span
-          class="-mb-0.5 mt-1.5 block h-px w-4 origin-center bg-ivory transition-transform duration-300"
+          class="block h-px w-4 origin-center bg-ivory transition-transform duration-300"
           :class="open ? 'translate-y-[-3.5px] -rotate-45' : ''"
         />
       </button>
     </div>
-    <Transition name="menu">
+    <Transition
+      enter-active-class="transition duration-300 ease-out"
+      enter-from-class="opacity-0 -translate-y-8"
+      leave-active-class="transition duration-300 ease-in"
+      leave-to-class="opacity-0 -translate-y-8"
+    >
       <nav
         v-if="open"
         id="menu"
         ref="menu"
-        class="fixed inset-0 z-0 flex flex-col justify-center gap-1 bg-ink px-6 md:hidden"
+        class="fixed inset-0 z-0 flex flex-col justify-center gap-4 bg-ink px-6 sm:gap-8 md:hidden"
         aria-label="Menu"
       >
         <RouterLink
-          v-for="[label, to] in links"
-          :key="to"
-          :to="to"
+          v-for="item in primaryNav"
+          :key="item.to"
+          :to="item.to"
           class="inline-flex min-h-11 items-center font-display text-5xl font-light transition-colors hover:text-sand"
           active-class="text-sand"
           @click="open = false"
-          >{{ label }}</RouterLink
+          >{{ item.label }}</RouterLink
         >
       </nav>
     </Transition>
   </header>
 </template>
-
-<style>
-.menu-enter-active,
-.menu-leave-active {
-  transition:
-    opacity 0.3s ease,
-    transform 0.3s ease;
-}
-.menu-enter-from,
-.menu-leave-to {
-  opacity: 0;
-  transform: translateY(-2rem);
-}
-</style>

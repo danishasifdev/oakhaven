@@ -1,34 +1,34 @@
 export const deliveredDevelopments = [
-  { number: 1, name: 'Harbour Court', location: 'Dubai Marina', homes: 120, promised: 'Mar 2011', delivered: 'Feb 2011', earlyBy: '28 days' },
-  { number: 2, name: 'Al Wasl Gardens', location: 'Al Wasl', homes: 64, promised: 'Sep 2012', delivered: 'Aug 2012', earlyBy: '33 days' },
-  { number: 3, name: 'Marjan Residences', location: 'Al Marjan Island', homes: 210, promised: 'Dec 2014', delivered: 'Nov 2014', earlyBy: '41 days' },
-  { number: 4, name: 'The Linden', location: 'Dubai Hills', homes: 88, promised: 'Jun 2016', delivered: 'May 2016', earlyBy: '36 days' },
-  { number: 5, name: 'Jumeirah Bay Villas', location: 'Jumeirah Bay', homes: 32, promised: 'Oct 2017', delivered: 'Sep 2017', earlyBy: '29 days' },
-  { number: 6, name: 'Saadiyat Court', location: 'Saadiyat Island', homes: 240, promised: 'Mar 2019', delivered: 'Feb 2019', earlyBy: '44 days' },
-  { number: 7, name: 'Al Mouj Terraces', location: 'Muscat', homes: 160, promised: 'Nov 2020', delivered: 'Oct 2020', earlyBy: '47 days' },
-  { number: 8, name: 'Palm Quay', location: 'Palm Jumeirah', homes: 340, promised: 'Jun 2022', delivered: 'May 2022', earlyBy: '39 days' },
-  { number: 9, name: 'One Creek', location: 'Dubai Creek', homes: 886, promised: 'Sep 2024', delivered: 'Aug 2024', earlyBy: '45 days' },
-] as const
+  { number: 1, name: "Harbour Court", location: "Dubai Marina", homes: 120, promised: "Mar 2011", delivered: "Feb 2011", earlyBy: "28 days", image: "/img/facade.avif" },
+  { number: 2, name: "Al Wasl Gardens", location: "Al Wasl", homes: 64, promised: "Sep 2012", delivered: "Aug 2012", earlyBy: "33 days", image: "/img/maison.avif" },
+  { number: 3, name: "Marjan Residences", location: "Al Marjan Island", homes: 210, promised: "Dec 2014", delivered: "Nov 2014", earlyBy: "41 days", image: "/img/residences.avif" },
+  { number: 4, name: "The Linden", location: "Dubai Hills", homes: 88, promised: "Jun 2016", delivered: "May 2016", earlyBy: "36 days", image: "/img/philosophy.avif" },
+  { number: 5, name: "Jumeirah Bay Villas", location: "Jumeirah Bay", homes: 32, promised: "Oct 2017", delivered: "Sep 2017", earlyBy: "29 days", image: "/img/solenne.avif" },
+  { number: 6, name: "Saadiyat Court", location: "Saadiyat Island", homes: 240, promised: "Mar 2019", delivered: "Feb 2019", earlyBy: "44 days", image: "/img/skyline.avif" },
+  { number: 7, name: "Al Mouj Terraces", location: "Muscat", homes: 160, promised: "Nov 2020", delivered: "Oct 2020", earlyBy: "47 days", image: "/img/tree.avif" },
+  { number: 8, name: "Palm Quay", location: "Palm Jumeirah", homes: 340, promised: "Jun 2022", delivered: "May 2022", earlyBy: "39 days", image: "/img/wall.avif" },
+  { number: 9, name: "One Creek", location: "Dubai Creek", homes: 886, promised: "Sep 2024", delivered: "Aug 2024", earlyBy: "45 days", image: "/img/facade.avif" },
+] as const;
 
 export const guarantees = [
   {
-    title: 'Handover date in the contract',
-    detail: 'Early or we pay.',
+    title: "Handover date in the contract",
+    detail: "Early or we pay.",
   },
   {
-    title: 'Monthly progress reports',
-    detail: 'Every buyer receives a monthly photo and video report.',
+    title: "Monthly progress reports",
+    detail: "Every buyer receives a monthly photo and video report.",
   },
   {
-    title: 'Finish specification locked at signing',
-    detail: 'Material swaps require the buyer’s written approval.',
+    title: "Finish specification locked at signing",
+    detail: "Material swaps require the buyer’s written approval.",
   },
   {
-    title: 'Ten year structural warranty',
-    detail: 'Fit out warranty: two years.',
+    title: "Ten year structural warranty",
+    detail: "Fit out warranty: two years.",
   },
   {
-    title: 'Named customer care contact',
-    detail: 'From signing through year two.',
+    title: "Named customer care contact",
+    detail: "From signing through year two.",
   },
-] as const
+] as const;

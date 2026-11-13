@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import AppContainer from "./AppContainer.vue";
+import Eyebrow from "./Eyebrow.vue";
 import TitleReveal from "./TitleReveal.vue";
 import ScrollFillText from "./ScrollFillText.vue";
 
@@ -20,13 +22,11 @@ const splitTitle = (title: string) => {
 };
 </script>
 <template>
-  <header
-    class="mx-auto w-full max-w-[90rem] px-6 pt-40 pb-16 md:px-12 md:pt-56 md:pb-24"
-  >
-    <p class="eyebrow mb-8">{{ eyebrow }}</p>
+  <AppContainer as="header" class="pb-16 pt-40 md:pb-24 md:pt-56">
+    <Eyebrow class="mb-8">{{ eyebrow }}</Eyebrow>
     <TitleReveal
       as="h1"
-      class="font-display font-light text-[clamp(2.5rem,6vw,5.5rem)] leading-[0.95]"
+      class="font-display text-[clamp(2.5rem,6vw,5.5rem)] font-light leading-[0.95]"
       :lines="splitTitle(title)"
     />
     <ScrollFillText
@@ -34,5 +34,5 @@ const splitTitle = (title: string) => {
       class="mt-10 max-w-xl leading-relaxed"
       :text="lead"
     />
-  </header>
+  </AppContainer>
 </template>

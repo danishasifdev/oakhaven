@@ -1,18 +1,21 @@
 <script setup lang="ts">
 import ScrollReveal from "../components/ScrollReveal.vue";
-import TitleReveal from "../components/TitleReveal.vue";
 import ScrollFillText from "../components/ScrollFillText.vue";
+import AppContainer from "../components/AppContainer.vue";
+import AppButton from "../components/AppButton.vue";
+import Eyebrow from "../components/Eyebrow.vue";
+import SectionTitle from "../components/SectionTitle.vue";
 </script>
+
 <template>
-  <section
+  <AppContainer
+    as="section"
     id="promise"
-    class="mx-auto grid w-full max-w-[90rem] items-center gap-12 px-6 py-20 md:grid-cols-2 md:px-12 md:py-32"
+    class="grid items-center gap-12 py-20 md:grid-cols-2 md:py-32"
   >
     <div class="md:col-span-1">
-      <ScrollReveal><p class="eyebrow mb-8">01 · Our promise</p></ScrollReveal>
-      <TitleReveal
-        as="h2"
-        class="font-display headline font-light"
+      <ScrollReveal><Eyebrow class="mb-8">01 · Our promise</Eyebrow></ScrollReveal>
+      <SectionTitle
         :lines="[
           { text: 'We promise a date.' },
           { text: 'And we hand over on it.', class: 'text-muted' },
@@ -23,12 +26,9 @@ import ScrollFillText from "../components/ScrollFillText.vue";
         text="Every VÉRÉN contract names a handover date. Nine times we have reached it early. We publish every date we promised next to the date we delivered."
       />
       <ScrollReveal :delay="0.2">
-        <RouterLink
-          to="/record"
-          class="mt-8 inline-flex min-h-11 items-center border-b border-sand pb-1 text-sm text-sand"
-        >
+        <AppButton to="/record" variant="link" class="mt-8">
           See the full record →
-        </RouterLink>
+        </AppButton>
       </ScrollReveal>
     </div>
     <ScrollReveal mask class="md:col-span-1">
@@ -36,8 +36,8 @@ import ScrollFillText from "../components/ScrollFillText.vue";
         src="/img/skyline.avif"
         alt="City skyline at dusk"
         loading="lazy"
-        class="aspect-[4/3] w-full object-contain md:aspect-[9/16]"
+        class="aspect-[4/3] w-full object-cover md:aspect-[4/5]"
       />
     </ScrollReveal>
-  </section>
+  </AppContainer>
 </template>
