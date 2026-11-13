@@ -2,7 +2,7 @@
 import { computed, onMounted, onBeforeUnmount, ref } from "vue";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { projects } from "../data/projects";
+import { projects, projectProgress, projectCurrentMilestone } from "../data/projects";
 import StatusChip from "../components/StatusChip.vue";
 import Eyebrow from "../components/Eyebrow.vue";
 import SectionTitle from "../components/SectionTitle.vue";
@@ -12,45 +12,12 @@ gsap.registerPlugin(ScrollTrigger);
 const root = ref<HTMLElement>();
 const track = ref<HTMLElement>();
 const reduced = useReducedMotion();
-const now = new Date();
-const getProgress = (
-  milestones: readonly { date: string; stage: string }[],
-) => {
-  const parseMonth = (value: string) => {
-    const [month, year] = value.split(" ");
-    return new Date(
-      Number(year),
-      new Date(`${month} 1, 2000`).getMonth(),
-      1,
-    ).getTime();
-  };
-  const start = parseMonth(milestones[0].date);
-  const end = parseMonth(milestones[milestones.length - 1].date);
-  const current = new Date(now.getFullYear(), now.getMonth(), 1).getTime();
-  return Math.min(
-    100,
-    Math.max(0, Math.round(((current - start) / (end - start)) * 100)),
-  );
-};
 const cards = computed(() =>
-  projects.map((project) => {
-    const today = new Date(now.getFullYear(), now.getMonth(), 1).getTime();
-    const milestones = project.milestones.filter((item) => {
-      const [month, year] = item.date.split(" ");
-      return (
-        new Date(
-          Number(year),
-          new Date(`${month} 1, 2000`).getMonth(),
-          1,
-        ).getTime() <= today
-      );
-    });
-    return {
-      ...project,
-      progress: getProgress(project.milestones),
-      currentMilestone: milestones.at(-1)?.stage ?? "Foundation",
-    };
-  }),
+  projects.map((project) => ({
+    ...project,
+    progress: projectProgress(project.milestones),
+    currentMilestone: projectCurrentMilestone(project.milestones),
+  })),
 );
 let ctx: gsap.Context | undefined;
 
@@ -93,7 +60,7 @@ onBeforeUnmount(() => {
       class="developments-track flex h-full w-max flex-row items-center gap-4 px-6 md:gap-6 md:px-12"
     >
       <div
-        class="developments-intro w-[84vw] shrink-0 pr-4 motion-reduce:snap-start md:w-[34vw] md:max-w-[34rem] md:pr-12"
+        class="developments-intro w-[84vw] shrink-0 pr-4 motion-reduce:snap-start md:w-[50vw] md:max-w-[50rem] md:pr-12"
       >
         <Eyebrow class="mb-6">02 · Building now</Eyebrow>
         <SectionTitle
@@ -108,7 +75,7 @@ onBeforeUnmount(() => {
         v-for="(project, index) in cards"
         :key="project.slug"
         :to="`/developments/${project.slug}`"
-        class="development-card group relative block h-[68svh] w-[84vw] min-h-0 shrink-0 overflow-hidden motion-reduce:snap-start md:h-[72svh] md:w-[62vw]"
+        class="development-card group relative block h-[68svh] w-[84vw] min-h-0 shrink-0 overflow-hidden motion-reduce:snap-start md:h-[62svh] md:w-[52vw]"
       >
         <img
           :src="project.img"

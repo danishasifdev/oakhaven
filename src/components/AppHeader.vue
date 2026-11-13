@@ -107,8 +107,8 @@ onBeforeUnmount(() => {
       <RouterLink
         to="/"
         class="font-display text-2xl tracking-[0.3em]"
-        aria-label="VÉRÉN home"
-        >VÉRÉN</RouterLink
+        aria-label="Oakhaven home"
+        >OAKHAVEN</RouterLink
       >
       <nav
         class="hidden gap-10 text-xs tracking-wide md:flex"

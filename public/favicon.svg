@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Oakhaven">
+  <rect width="64" height="64" rx="14" fill="#10110f" />
+  <path fill="#b8a995" d="M32 10 8 30v24h48V30L32 10Z" />
+  <path fill="#10110f" d="M26 54V37a6 6 0 0 1 12 0v17Z" />
+</svg>

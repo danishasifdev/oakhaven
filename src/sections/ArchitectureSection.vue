@@ -35,7 +35,9 @@ const steps = [
 <template>
   <section class="bg-raised py-20 md:py-32">
     <AppContainer>
-      <ScrollReveal><Eyebrow class="mb-6">03 · How we build</Eyebrow></ScrollReveal>
+      <ScrollReveal
+        ><Eyebrow class="mb-6">03 · How we build</Eyebrow></ScrollReveal
+      >
       <SectionTitle
         tile-class="bg-ink"
         class="max-w-4xl"
@@ -45,13 +47,17 @@ const steps = [
         ]"
       />
       <div class="mt-12 grid gap-x-8 gap-y-12 md:mt-20 md:grid-cols-2">
-        <figure v-for="(step, index) in steps" :key="step.title" class="min-w-0">
+        <figure
+          v-for="(step, index) in steps"
+          :key="step.title"
+          class="min-w-0"
+        >
           <ScrollReveal mask :delay="index * 0.08">
             <img
               :src="step.image"
               :alt="step.alt"
               loading="lazy"
-              class="aspect-[4/3] w-full object-cover"
+              class="aspect-[4/3] w-full object-cover grayscale hover:grayscale-0 duration-300 transition-all ease-in-out"
             />
           </ScrollReveal>
           <figcaption class="mt-5 min-h-20">

@@ -43,18 +43,18 @@ onBeforeUnmount(() => ctx?.revert());
     <svg
       ref="mark"
       aria-hidden="true"
-      viewBox="0 130 1000 250"
+      viewBox="0 0 1660 226"
       preserveAspectRatio="xMidYMid meet"
       class="pointer-events-none h-auto w-full select-none"
     >
       <text
-        x="500"
-        y="370"
+        x="840.8"
+        y="206.4"
         text-anchor="middle"
         font-size="300"
         class="fill-sand font-display font-light opacity-[0.1]"
       >
-        VÉRÉN
+        OAKHAVEN
       </text>
     </svg>
 
@@ -93,7 +93,7 @@ onBeforeUnmount(() => ctx?.revert());
       </div>
 
       <p class="mt-6 text-end text-xs text-muted">
-        © 2026 VÉRÉN. Concept project. All names and figures are fictional.
+        © 2026 Oakhaven. Concept project. All names and figures are fictional.
       </p>
     </AppContainer>
   </footer>

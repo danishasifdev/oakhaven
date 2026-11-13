@@ -1,5 +1,5 @@
 export const company = {
-  name: 'VÉRÉN',
+  name: 'Oakhaven',
   founded: 2008,
   foundedIn: 'Dubai',
   developments: 12,

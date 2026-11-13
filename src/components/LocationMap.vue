@@ -3,7 +3,7 @@ import { computed } from "vue";
 import { gulfMap } from "../data/gulfMap";
 import { locations } from "../data/locations";
 
-withDefaults(defineProps<{ markers?: boolean; fit?: "meet" | "slice" }>(), {
+withDefaults(defineProps<{ markers?: boolean; fit?: "meet" | "slice"; active?: string }>(), {
   markers: true,
   fit: "meet",
 });
@@ -53,10 +53,15 @@ const points = computed(() =>
         class="absolute -translate-x-1/2 -translate-y-1/2"
         :style="{ left: point.left, top: point.top }"
       >
-        <span aria-hidden="true" class="block size-5 rounded-full bg-sand/15" />
         <span
           aria-hidden="true"
-          class="absolute left-1/2 top-1/2 size-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-sand shadow-[0_0_10px_2px_rgba(184,169,149,0.8)]"
+          class="block size-5 rounded-full transition-all duration-300"
+          :class="active === point.name ? 'scale-150 bg-sand/25' : 'scale-100 bg-sand/15'"
+        />
+        <span
+          aria-hidden="true"
+          class="absolute left-1/2 top-1/2 size-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full shadow-[0_0_10px_2px_rgba(184,169,149,0.8)] transition-colors duration-300"
+          :class="active === point.name ? 'bg-ivory' : 'bg-sand'"
         />
       </span>
     </div>
