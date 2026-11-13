@@ -93,7 +93,7 @@ onBeforeUnmount(() => {
       class="developments-track flex h-full w-max flex-row items-center gap-4 px-6 md:gap-6 md:px-12"
     >
       <div
-        class="developments-intro w-[84vw] shrink-0 pr-4 motion-reduce:snap-start md:w-[34vw] md:max-w-[34rem] md:pr-12"
+        class="developments-intro w-[84vw] shrink-0 pr-4 motion-reduce:snap-start md:w-[50vw] md:max-w-[50rem] md:pr-12"
       >
         <Eyebrow class="mb-6">02 · Building now</Eyebrow>
         <SectionTitle
@@ -108,7 +108,7 @@ onBeforeUnmount(() => {
         v-for="(project, index) in cards"
         :key="project.slug"
         :to="`/developments/${project.slug}`"
-        class="development-card group relative block h-[68svh] w-[84vw] min-h-0 shrink-0 overflow-hidden motion-reduce:snap-start md:h-[72svh] md:w-[62vw]"
+        class="development-card group relative block h-[68svh] w-[84vw] min-h-0 shrink-0 overflow-hidden motion-reduce:snap-start md:h-[62svh] md:w-[52vw]"
       >
         <img
           :src="project.img"

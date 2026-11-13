@@ -14,7 +14,9 @@ import SectionTitle from "../components/SectionTitle.vue";
     class="grid items-center gap-12 py-20 md:grid-cols-2 md:py-32"
   >
     <div class="md:col-span-1">
-      <ScrollReveal><Eyebrow class="mb-8">01 · Our promise</Eyebrow></ScrollReveal>
+      <ScrollReveal
+        ><Eyebrow class="mb-8">01 · Our promise</Eyebrow></ScrollReveal
+      >
       <SectionTitle
         :lines="[
           { text: 'We promise a date.' },
