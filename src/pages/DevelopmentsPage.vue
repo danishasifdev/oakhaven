@@ -157,10 +157,7 @@ const index = (value: number) => String(value).padStart(2, "0");
       </div>
     </AppContainer>
 
-    <section
-      class="bg-raised py-20 md:py-28"
-      aria-labelledby="archive-heading"
-    >
+    <section class="bg-raised py-20 md:py-28" aria-labelledby="archive-heading">
       <AppContainer>
         <div class="flex flex-wrap items-end justify-between gap-6">
           <div>
@@ -192,7 +189,9 @@ const index = (value: number) => String(value).padStart(2, "0");
               @click="activeFilter = filter"
             >
               {{ filter }}
-              <span class="ml-2 text-[10px] opacity-60">{{ counts[filter] }}</span>
+              <span class="ml-2 text-[10px] opacity-60">{{
+                counts[filter]
+              }}</span>
             </button>
           </div>
         </div>
