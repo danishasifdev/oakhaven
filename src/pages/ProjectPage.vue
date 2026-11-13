@@ -14,7 +14,7 @@ import TitleReveal from "../components/TitleReveal.vue";
 import StatusChip from "../components/StatusChip.vue";
 import FormField from "../components/FormField.vue";
 import Timeline from "../components/Timeline.vue";
-import { projects } from "../data/projects";
+import { projects, projectProgress, projectCurrentMilestone } from "../data/projects";
 import { useReducedMotion } from "../composables/useReducedMotion";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -22,6 +22,13 @@ const route = useRoute();
 const projectIndex = projects.findIndex((item) => item.slug === route.params.slug);
 const project = projects[projectIndex];
 const nextProject = projects[(projectIndex + 1) % projects.length];
+const progress = projectProgress(project.milestones);
+const currentStage = projectCurrentMilestone(project.milestones);
+const heroMeta = [
+  { label: "Location", value: project.place },
+  { label: "Promised handover", value: project.promisedHandover },
+  { label: "Current stage", value: currentStage },
+];
 const root = ref<HTMLElement>();
 const reduced = useReducedMotion();
 const sent = ref(false);
@@ -118,7 +125,7 @@ onBeforeUnmount(() => ctx?.revert());
 
 <template>
   <div ref="root">
-    <section class="project-hero relative h-svh overflow-hidden">
+    <section class="project-hero relative min-h-svh overflow-hidden">
       <img
         :src="project.img"
         :alt="`${project.name}, ${project.place}`"
@@ -134,6 +141,32 @@ onBeforeUnmount(() => ctx?.revert());
           class="mt-5 font-display text-[clamp(3.5rem,12vw,11rem)] font-light leading-[0.9]"
           :lines="[{ text: project.name }]"
         />
+        <dl
+          class="mt-8 grid gap-5 border-t border-ivory/20 pt-5 sm:grid-cols-3 md:mt-10"
+        >
+          <div v-for="item in heroMeta" :key="item.label">
+            <dt class="text-[10px] uppercase tracking-[0.24em] text-muted">
+              {{ item.label }}
+            </dt>
+            <dd class="mt-1 font-display text-xl font-light md:text-2xl">
+              {{ item.value }}
+            </dd>
+          </div>
+        </dl>
+        <div class="mt-5 max-w-sm">
+          <div
+            class="flex justify-between text-[10px] uppercase tracking-[0.24em] text-muted"
+          >
+            <span>Elapsed programme</span>
+            <span class="text-sand">{{ progress }}%</span>
+          </div>
+          <div class="mt-2 h-px bg-ivory/20">
+            <span
+              class="block h-px bg-sand"
+              :style="{ width: `${progress}%` }"
+            />
+          </div>
+        </div>
       </AppContainer>
     </section>
 
@@ -307,50 +340,93 @@ onBeforeUnmount(() => ctx?.revert());
       </AppContainer>
     </section>
 
-    <AppContainer
-      as="section"
-      class="py-20 md:py-28"
+    <section
+      class="bg-raised py-20 md:py-28"
       aria-labelledby="viewing-heading"
     >
-      <div class="grid gap-10 md:grid-cols-2">
-        <div>
-          <Eyebrow class="mb-5">Next step</Eyebrow>
-          <SectionTitle
-            id="viewing-heading"
-            :lines="[{ text: 'Request a viewing.' }]"
-          />
+      <AppContainer>
+        <div
+          class="grid gap-10 border border-ivory/10 bg-ink p-6 md:grid-cols-12 md:p-12"
+        >
+          <div class="md:col-span-5">
+            <Eyebrow class="mb-5">Next step</Eyebrow>
+            <SectionTitle
+              id="viewing-heading"
+              :lines="[{ text: 'Request a viewing.' }]"
+            />
+            <p class="mt-5 max-w-sm text-sm leading-relaxed text-muted">
+              See {{ project.name }} with the advisor who will stay with you
+              through handover.
+            </p>
+            <dl class="mt-8 border-t border-ivory/15 text-sm">
+              <div class="flex justify-between gap-6 border-b border-ivory/10 py-3">
+                <dt class="text-muted">Development</dt>
+                <dd class="text-right">{{ project.name }}</dd>
+              </div>
+              <div class="flex justify-between gap-6 border-b border-ivory/10 py-3">
+                <dt class="text-muted">Location</dt>
+                <dd class="text-right">{{ project.place }}</dd>
+              </div>
+              <div class="flex justify-between gap-6 py-3">
+                <dt class="text-muted">Promised handover</dt>
+                <dd class="text-right text-sand">{{ project.promisedHandover }}</dd>
+              </div>
+            </dl>
+          </div>
+
+          <form
+            class="grid gap-6 md:col-span-6 md:col-start-7"
+            @submit.prevent="sent = true"
+          >
+            <div class="grid gap-6 sm:grid-cols-2">
+              <FormField
+                v-for="field in viewingFields"
+                :key="field.id"
+                :id="field.id"
+                :label="field.label"
+                :type="field.type"
+                :autocomplete="field.autocomplete"
+                :name="field.id"
+                required
+              />
+            </div>
+            <AppButton type="submit" class="justify-self-start">
+              Request a viewing
+            </AppButton>
+            <p v-if="sent" role="status" class="text-sm text-sand">
+              Thank you. Your viewing request has been noted.
+            </p>
+            <p class="text-xs text-muted">
+              Fictional concept contact details. This form does not send data to
+              a service.
+            </p>
+          </form>
         </div>
-        <form class="grid gap-6" @submit.prevent="sent = true">
-          <FormField
-            v-for="field in viewingFields"
-            :key="field.id"
-            :id="field.id"
-            :label="field.label"
-            :type="field.type"
-            :autocomplete="field.autocomplete"
-            :name="field.id"
-            required
-          />
-          <AppButton type="submit" class="justify-self-start">
-            Request a viewing
-          </AppButton>
-          <p v-if="sent" role="status" class="text-sm text-sand">
-            Thank you. Your viewing request has been noted.
-          </p>
-        </form>
-      </div>
-    </AppContainer>
+      </AppContainer>
+    </section>
 
     <RouterLink
       :to="`/developments/${nextProject.slug}`"
-      class="group block border-t border-ivory/10 py-20 md:py-28"
+      class="group relative block overflow-hidden border-t border-ivory/10"
     >
-      <AppContainer>
+      <img
+        :src="nextProject.img"
+        alt=""
+        loading="lazy"
+        class="absolute inset-0 size-full object-cover opacity-30 transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+      />
+      <div
+        class="absolute inset-0 bg-gradient-to-r from-ink via-ink/80 to-ink/30"
+      />
+      <AppContainer class="relative py-24 md:py-32">
         <Eyebrow class="mb-5">Next development</Eyebrow>
         <p
           class="font-display text-5xl font-light transition-colors group-hover:text-sand md:text-8xl"
         >
-          {{ nextProject.name }} →
+          {{ nextProject.name }} <span aria-hidden="true">→</span>
+        </p>
+        <p class="mt-4 text-sm text-muted">
+          {{ nextProject.place }} · Promised {{ nextProject.promisedHandover }}
         </p>
       </AppContainer>
     </RouterLink>

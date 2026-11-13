@@ -89,4 +89,31 @@ export const projects = developments.map((project) => ({
   })),
 }))
 
+const parseMonth = (value: string) => {
+  const [month, year] = value.split(' ')
+  return new Date(Number(year), new Date(`${month} 1, 2000`).getMonth(), 1).getTime()
+}
+
+// Shared by the home developments row and the developments page so both show
+// the same elapsed-versus-planned progress for each project.
+export const projectProgress = (
+  milestones: ReadonlyArray<{ date: string }>,
+  now = new Date(),
+) => {
+  if (milestones.length < 2) return 0
+  const start = parseMonth(milestones[0].date)
+  const end = parseMonth(milestones[milestones.length - 1].date)
+  const current = new Date(now.getFullYear(), now.getMonth(), 1).getTime()
+  return Math.min(100, Math.max(0, Math.round(((current - start) / (end - start)) * 100)))
+}
+
+export const projectCurrentMilestone = (
+  milestones: ReadonlyArray<{ date: string; stage: string }>,
+  now = new Date(),
+) => {
+  const current = new Date(now.getFullYear(), now.getMonth(), 1).getTime()
+  const reached = milestones.filter((milestone) => parseMonth(milestone.date) <= current)
+  return reached.at(-1)?.stage ?? 'Foundation'
+}
+
 export { metrics }
