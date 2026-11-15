@@ -106,7 +106,7 @@ onBeforeUnmount(() => {
     >
       <RouterLink
         to="/"
-        class="font-display text-2xl tracking-[0.3em]"
+        class="inline-flex min-h-11 items-center font-display text-2xl tracking-[0.3em]"
         aria-label="Oakhaven home"
         >OAKHAVEN</RouterLink
       >
@@ -118,7 +118,7 @@ onBeforeUnmount(() => {
           v-for="item in primaryNav"
           :key="item.to"
           :to="item.to"
-          class="border-b border-transparent transition-colors hover:border-sand hover:text-sand"
+          class="relative inline-flex min-h-11 items-center transition-colors after:absolute after:inset-x-0 after:bottom-3.5 after:h-px after:bg-transparent after:transition-colors hover:text-sand hover:after:bg-sand"
           active-class="text-sand"
           >{{ item.label }}</RouterLink
         >

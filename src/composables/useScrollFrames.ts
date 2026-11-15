@@ -13,8 +13,14 @@ export function useScrollFrames(
   // Longest run of frames decoded from index 0; the sequence can only ever
   // play up to here. Exposed so callers can pace themselves against loading.
   const contiguous = ref(0)
+  // Settled frames (loaded or failed) drive the preloader's progress bar, while
+  // `complete` lets callers hold the hero back until the whole sequence is in.
+  const loadedCount = ref(0)
+  const complete = ref(false)
   let progress = 0
   let drawn = -1
+  let started = false
+  let disposed = false
 
   const draw = () => {
     const element = canvas.value
@@ -37,6 +43,7 @@ export function useScrollFrames(
     let cursor = 0
     let active = 0
     const next = () => {
+      if (disposed) return
       // Keep a small queue so the poster frame wins the bandwidth race.
       while (active < 4 && cursor < options.count) {
         const index = cursor++
@@ -44,9 +51,12 @@ export function useScrollFrames(
         const image = new Image()
         image.decoding = 'async'
         const settle = () => {
+          if (disposed) return
           active--
           frames[index] = image.complete && image.naturalWidth > 0 ? image : null
           while (frames[contiguous.value]) contiguous.value++
+          loadedCount.value++
+          if (loadedCount.value >= options.count) complete.value = true
           draw()
           next()
         }
@@ -60,7 +70,9 @@ export function useScrollFrames(
 
   // Loading is started by the caller, which knows whether motion is allowed.
   const start = () => {
-    if (canvas.value) load()
+    if (started || disposed || !canvas.value) return
+    started = true
+    load()
   }
 
   const seek = (value: number) => {
@@ -68,5 +80,10 @@ export function useScrollFrames(
     draw()
   }
 
-  return { ready, seek, start, loaded: contiguous }
+  // Stops the queue when the hero unmounts mid-load.
+  const dispose = () => {
+    disposed = true
+  }
+
+  return { ready, seek, start, dispose, loaded: contiguous, loadedCount, complete }
 }
