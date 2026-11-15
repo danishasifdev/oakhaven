@@ -23,7 +23,8 @@ const describedBy = computed(() =>
   props.error ? `${props.id}-error` : undefined,
 );
 const controlClass =
-  "min-h-11 w-full border-0 border-b border-ivory/25 bg-transparent px-0 py-3 text-sm text-ivory outline-none transition-colors focus:border-sand aria-[invalid=true]:border-sand";
+  // 16px everywhere so iOS Safari never zooms when a field is focused.
+  "min-h-11 w-full border-0 border-b border-ivory/25 bg-transparent px-0 py-3 text-base text-ivory outline-none transition-colors focus:border-sand aria-[invalid=true]:border-sand";
 </script>
 
 <template>

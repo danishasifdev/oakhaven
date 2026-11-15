@@ -46,9 +46,9 @@ const cellClass = (index: number) => {
       <dd class="order-1 font-display text-4xl font-light md:text-5xl">
         {{ item.value }}
       </dd>
-      <p v-if="item.note" class="order-3 mt-1 text-[10px] text-muted">
+      <dd v-if="item.note" class="order-3 mt-1 text-[10px] text-muted">
         {{ item.note }}
-      </p>
+      </dd>
     </div>
   </dl>
 </template>
