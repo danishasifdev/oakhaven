@@ -1,4 +1,13 @@
-export const locations = [
+type Location = {
+  readonly name: string;
+  readonly region: string;
+  readonly status: string;
+  readonly homes: string;
+  readonly projectSlug?: string;
+  readonly coords: readonly [number, number];
+};
+
+export const locations: readonly Location[] = [
   {
     name: "Palm Jumeirah",
     region: "Dubai",

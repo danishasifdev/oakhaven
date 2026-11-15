@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { deliveredDevelopments } from "../data/record";
 import Eyebrow from "./Eyebrow.vue";
+import ScrollReveal from "./ScrollReveal.vue";
 
 type ColumnKey =
   | "name"
@@ -93,20 +94,26 @@ const index = (number: number) => String(number).padStart(2, "0");
           class="group border-b border-ivory/10 transition-colors hover:bg-ivory/[0.03]"
         >
           <th scope="row" class="py-4 pr-4 font-normal">
-            <span class="flex items-center gap-4">
-              <span class="font-display text-lg text-muted" aria-hidden="true">{{
-                index(item.number)
-              }}</span>
-              <span class="h-10 w-14 shrink-0 overflow-hidden">
-                <img
-                  :src="item.image"
-                  alt=""
-                  loading="lazy"
-                  class="size-full object-cover opacity-70 transition-opacity duration-300 group-hover:opacity-100"
-                />
+            <ScrollReveal mask :delay="0.08">
+              <span class="flex items-center gap-4">
+                <span
+                  class="font-display text-lg text-muted"
+                  aria-hidden="true"
+                  >{{ index(item.number) }}</span
+                >
+                <span class="h-10 w-14 shrink-0 overflow-hidden">
+                  <img
+                    :src="item.image"
+                    alt=""
+                    loading="lazy"
+                    class="size-full object-cover opacity-70 transition-opacity duration-300 group-hover:opacity-100"
+                  />
+                </span>
+                <span class="font-display text-xl font-light">{{
+                  item.name
+                }}</span>
               </span>
-              <span class="font-display text-xl font-light">{{ item.name }}</span>
-            </span>
+            </ScrollReveal>
           </th>
           <td
             v-for="column in bodyColumns"
@@ -114,7 +121,9 @@ const index = (number: number) => String(number).padStart(2, "0");
             class="py-4 pr-4 last:pr-0"
             :class="column.tone ? toneClass[column.tone] : ''"
           >
-            {{ item[column.key] }}
+            <ScrollReveal mask :delay="0.08">
+              {{ item[column.key] }}
+            </ScrollReveal>
           </td>
         </tr>
       </tbody>

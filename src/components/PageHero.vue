@@ -4,6 +4,7 @@ import AppContainer from "./AppContainer.vue";
 import Eyebrow from "./Eyebrow.vue";
 import TitleReveal from "./TitleReveal.vue";
 import ScrollFillText from "./ScrollFillText.vue";
+import ScrollReveal from "./ScrollReveal.vue";
 
 type Meta = { label: string; value: string };
 
@@ -51,7 +52,9 @@ const splitTitle = (title: string) => {
         class="size-full object-cover"
         :class="imagePosition"
       />
-      <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/55 to-ink/25" />
+      <div
+        class="absolute inset-0 bg-gradient-to-t from-ink via-ink/55 to-ink/25"
+      />
       <div
         class="absolute inset-0 bg-gradient-to-r from-ink/85 via-ink/25 to-transparent"
       />
@@ -83,14 +86,14 @@ const splitTitle = (title: string) => {
         v-if="meta?.length"
         class="mt-10 grid gap-6 border-t border-ivory/15 pt-6 sm:grid-cols-3 md:mt-14"
       >
-        <div v-for="item in meta" :key="item.label">
+        <ScrollReveal v-for="item in meta" :key="item.label">
           <dt class="text-[10px] uppercase tracking-[0.24em] text-muted">
             {{ item.label }}
           </dt>
           <dd class="mt-1 font-display text-2xl font-light md:text-3xl">
             {{ item.value }}
           </dd>
-        </div>
+        </ScrollReveal>
       </dl>
     </AppContainer>
   </header>
