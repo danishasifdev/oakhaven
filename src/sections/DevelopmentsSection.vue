@@ -2,7 +2,11 @@
 import { computed, onMounted, onBeforeUnmount, ref } from "vue";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { projects, projectProgress, projectCurrentMilestone } from "../data/projects";
+import {
+  projects,
+  projectProgress,
+  projectCurrentMilestone,
+} from "../data/projects";
 import StatusChip from "../components/StatusChip.vue";
 import Eyebrow from "../components/Eyebrow.vue";
 import SectionTitle from "../components/SectionTitle.vue";

@@ -57,7 +57,7 @@ const steps = [
               :src="step.image"
               :alt="step.alt"
               loading="lazy"
-              class="aspect-[4/3] w-full object-cover grayscale hover:grayscale-0 duration-300 transition-all ease-in-out"
+              class="aspect-[4/3] w-full object-cover lg:grayscale lg:hover:grayscale-0 duration-300 transition-all ease-in-out"
             />
           </ScrollReveal>
           <figcaption class="mt-5 min-h-20">

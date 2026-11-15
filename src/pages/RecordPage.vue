@@ -8,6 +8,7 @@ import StatBand from "../components/StatBand.vue";
 import RecordTable from "../components/RecordTable.vue";
 import { guarantees } from "../data/record";
 import { metrics } from "../data/company";
+import ScrollReveal from "../components/ScrollReveal.vue";
 
 const summary = [
   { ...metrics[0], note: "Every contract date met." },
@@ -77,9 +78,7 @@ const heroMeta = [
             <Eyebrow class="mb-4">Our guarantees</Eyebrow>
             <SectionTitle
               id="guarantees-heading"
-              :lines="[
-                { text: 'The terms we stand behind.' },
-              ]"
+              :lines="[{ text: 'The terms we stand behind.' }]"
             />
           </div>
           <p class="max-w-xs text-xs leading-relaxed text-muted">
@@ -93,15 +92,17 @@ const heroMeta = [
             :key="guarantee.title"
             class="grid grid-cols-[auto_1fr] gap-5 border-t border-ivory/15 pt-6"
           >
-            <Eyebrow tone="sand" class="pt-1">0{{ index + 1 }}</Eyebrow>
-            <div>
-              <h3 class="font-display text-2xl font-light md:text-3xl">
-                {{ guarantee.title }}
-              </h3>
-              <p class="mt-2 text-sm leading-relaxed text-muted">
-                {{ guarantee.detail }}
-              </p>
-            </div>
+            <ScrollReveal mask :delay="0.08">
+              <Eyebrow tone="sand" class="pt-1">0{{ index + 1 }}</Eyebrow>
+              <div>
+                <h3 class="font-display text-2xl font-light md:text-3xl">
+                  {{ guarantee.title }}
+                </h3>
+                <p class="mt-2 text-sm leading-relaxed text-muted">
+                  {{ guarantee.detail }}
+                </p>
+              </div>
+            </ScrollReveal>
           </li>
         </ol>
       </AppContainer>
@@ -114,7 +115,9 @@ const heroMeta = [
         loading="lazy"
         class="absolute inset-0 size-full object-cover opacity-30"
       />
-      <div class="absolute inset-0 bg-gradient-to-r from-ink via-ink/70 to-ink/30" />
+      <div
+        class="absolute inset-0 bg-gradient-to-r from-ink via-ink/70 to-ink/30"
+      />
       <AppContainer class="relative">
         <Eyebrow class="mb-4">Next step</Eyebrow>
         <p class="max-w-3xl font-display text-4xl font-light md:text-6xl">
@@ -122,7 +125,9 @@ const heroMeta = [
         </p>
         <div class="mt-8 flex flex-wrap items-center gap-6">
           <AppButton to="/developments">Explore developments</AppButton>
-          <AppButton to="/contact" variant="link">Request a viewing →</AppButton>
+          <AppButton to="/contact" variant="link"
+            >Request a viewing →</AppButton
+          >
         </div>
       </AppContainer>
     </section>

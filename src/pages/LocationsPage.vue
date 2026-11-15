@@ -57,7 +57,11 @@ const index = (value: number) => String(value).padStart(2, "0");
       :meta="heroMeta"
     >
       <template #background>
-        <LocationMap :markers="false" fit="slice" class="size-full opacity-50" />
+        <LocationMap
+          :markers="false"
+          fit="slice"
+          class="size-full opacity-50"
+        />
         <div
           class="absolute inset-0 bg-gradient-to-t from-ink via-ink/70 to-ink/35"
         />
@@ -82,23 +86,27 @@ const index = (value: number) => String(value).padStart(2, "0");
         class="mt-8 grid gap-px border border-ivory/10 bg-ivory/10 sm:grid-cols-2 lg:grid-cols-5"
       >
         <div
-          v-for="region in regionSummary"
+          v-for="(region, index) in regionSummary"
           :key="region.region"
           class="bg-ink p-5"
         >
-          <dt class="font-display text-2xl font-light">{{ region.region }}</dt>
-          <dd class="mt-2 text-xs leading-relaxed text-muted">
-            {{ region.total }} destination{{ region.total === 1 ? "" : "s" }}
-            <span class="block text-[10px] text-sand">
-              {{ region.delivered }} delivered<template
-                v-if="region.building"
-              >
-                · {{ region.building }} building</template
-              ><template v-if="region.planned">
-                · {{ region.planned }} planned</template
-              >
-            </span>
-          </dd>
+          <ScrollReveal mask :delay="index * 0.08">
+            <dt class="font-display text-2xl font-light">
+              {{ region.region }}
+            </dt>
+            <dd class="mt-2 text-xs leading-relaxed text-muted">
+              {{ region.total }} destination{{ region.total === 1 ? "" : "s" }}
+              <span class="block text-[10px] text-sand">
+                {{ region.delivered }} delivered<template
+                  v-if="region.building"
+                >
+                  · {{ region.building }} building</template
+                ><template v-if="region.planned">
+                  · {{ region.planned }} planned</template
+                >
+              </span>
+            </dd>
+          </ScrollReveal>
         </div>
       </dl>
     </AppContainer>
