@@ -154,46 +154,48 @@ const index = (value: number) => String(value).padStart(2, "0");
                       ? `/developments/${location.projectSlug}`
                       : undefined
                   "
-                  class="group grid gap-3 px-4 py-6 transition-colors md:grid-cols-12 md:items-center md:gap-5"
+                  class="group relative grid gap-3 px-4 py-6 pr-16 transition-colors xl:grid-cols-12 xl:items-center xl:gap-5"
                   :class="
                     active === location.name
                       ? 'bg-sand/[0.06]'
                       : 'hover:bg-ivory/[0.03]'
                   "
                 >
-                  <span
-                    class="font-display text-lg transition-colors md:col-span-1"
-                    :class="
-                      active === location.name ? 'text-sand' : 'text-muted'
-                    "
-                    aria-hidden="true"
-                    >{{ index(locationIndex + 1) }}</span
-                  >
-                  <span class="md:col-span-4">
-                    <span
-                      class="block font-display text-3xl font-light transition-colors md:text-4xl"
-                      :class="
-                        active === location.name ? 'text-sand' : 'text-ivory'
-                      "
-                      >{{ location.name }}</span
-                    >
-                    <span class="mt-1 block text-xs text-muted md:hidden">{{
+                  <span class="xl:col-span-5">
+                    <span class="flex items-baseline gap-4">
+                      <span
+                        class="font-display text-lg transition-colors"
+                        :class="
+                          active === location.name ? 'text-sand' : 'text-muted'
+                        "
+                        aria-hidden="true"
+                        >{{ index(locationIndex + 1) }}</span
+                      >
+                      <span
+                        class="block font-display text-3xl font-light transition-colors xl:text-4xl"
+                        :class="
+                          active === location.name ? 'text-sand' : 'text-ivory'
+                        "
+                        >{{ location.name }}</span
+                      >
+                    </span>
+                    <span class="mt-1 block text-xs text-muted xl:hidden">{{
                       location.region
                     }}</span>
                   </span>
                   <span
-                    class="hidden text-sm text-muted md:col-span-2 md:block"
+                    class="hidden text-sm text-muted xl:col-span-2 xl:block"
                     >{{ location.region }}</span
                   >
-                  <span class="md:col-span-2">
+                  <span class="xl:col-span-3">
                     <StatusChip :status="location.status" />
                   </span>
-                  <span class="text-sm text-muted md:col-span-3">{{
+                  <span class="text-sm text-muted xl:col-span-2">{{
                     location.homes
                   }}</span>
                   <span
                     v-if="location.projectSlug"
-                    class="hidden justify-self-end md:col-span-1 md:block"
+                    class="absolute right-4 top-6 xl:top-1/2 xl:-translate-y-1/2"
                   >
                     <span
                       class="inline-grid size-10 place-items-center rounded-full border border-ivory/20 text-lg transition-colors group-hover:border-sand group-hover:text-sand"

@@ -189,7 +189,7 @@ const index = (value: number) => String(value).padStart(2, "0");
               @click="activeFilter = filter"
             >
               {{ filter }}
-              <span class="ml-2 text-[10px] opacity-60">{{
+              <span class="ml-2 text-[10px] opacity-80">{{
                 counts[filter]
               }}</span>
             </button>
