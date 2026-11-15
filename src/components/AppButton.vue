@@ -25,14 +25,20 @@ const variants: Record<Variant, string> = {
 };
 
 const tag = computed(() => (props.to ? RouterLink : props.href ? "a" : "button"));
+// Only pass the prop the chosen tag understands. Passing `href: undefined` on a
+// RouterLink would fall through as an attr and overwrite the generated href,
+// leaving a link with no destination (and no client-side navigation).
+const linkProps = computed(() => {
+  if (props.to) return { to: props.to };
+  if (props.href) return { href: props.href };
+  return { type: props.type };
+});
 </script>
 
 <template>
   <component
     :is="tag"
-    :to="to"
-    :href="href"
-    :type="tag === 'button' ? type : undefined"
+    v-bind="linkProps"
     class="inline-flex min-h-11 items-center justify-center gap-2 transition-colors"
     :class="variants[variant]"
   >
