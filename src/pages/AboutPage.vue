@@ -79,9 +79,7 @@ const heroMeta = [
           class="aspect-[4/5] w-full object-cover"
         />
       </ScrollReveal>
-      <div
-        class="flex flex-col justify-center md:col-span-6 md:col-start-7"
-      >
+      <div class="flex flex-col justify-center md:col-span-6 md:col-start-7">
         <Eyebrow class="mb-6">Our story</Eyebrow>
         <SectionTitle
           :lines="[
@@ -129,23 +127,27 @@ const heroMeta = [
       </div>
 
       <ol class="mt-12 border-t border-ivory/15">
-        <li
-          v-for="(principle, index) in principles"
-          :key="principle.title"
-          class="grid gap-4 border-b border-ivory/15 py-8 md:grid-cols-12 md:gap-6"
-        >
-          <Eyebrow tone="sand" class="md:col-span-1">0{{ index + 1 }}</Eyebrow>
-          <h3
-            class="font-display text-3xl font-light md:col-span-4 md:text-4xl"
+        <ScrollReveal mask :delay="0.08">
+          <li
+            v-for="(principle, index) in principles"
+            :key="principle.title"
+            class="grid gap-4 border-b border-ivory/15 py-8 md:grid-cols-12 md:gap-6"
           >
-            {{ principle.title }}
-          </h3>
-          <p
-            class="max-w-xl text-sm leading-relaxed text-muted md:col-span-6 md:col-start-7"
-          >
-            {{ principle.copy }}
-          </p>
-        </li>
+            <Eyebrow tone="sand" class="md:col-span-1"
+              >0{{ index + 1 }}</Eyebrow
+            >
+            <h3
+              class="font-display text-3xl font-light md:col-span-4 md:text-4xl"
+            >
+              {{ principle.title }}
+            </h3>
+            <p
+              class="max-w-xl text-sm leading-relaxed text-muted md:col-span-6 md:col-start-7"
+            >
+              {{ principle.copy }}
+            </p>
+          </li>
+        </ScrollReveal>
       </ol>
     </AppContainer>
 
@@ -165,20 +167,24 @@ const heroMeta = [
 
         <div class="mt-12 grid gap-6 sm:grid-cols-2 md:grid-cols-4">
           <article v-for="person in team" :key="person.name" class="group">
-            <div class="relative aspect-[4/5] overflow-hidden bg-ink">
-              <img
-                :src="person.image"
-                alt=""
-                loading="lazy"
-                class="size-full object-cover grayscale transition-all duration-500 ease-out group-hover:scale-[1.03] group-hover:grayscale-0"
-              />
-              <div
-                class="absolute inset-0 bg-gradient-to-t from-ink/70 via-transparent to-transparent"
-              />
-            </div>
-            <h3 class="mt-4 font-display text-2xl">{{ person.name }}</h3>
-            <p class="mt-1 text-xs text-muted">{{ person.role }}</p>
-            <p class="mt-2 text-[10px] text-muted">Fictional concept profile.</p>
+            <ScrollReveal mask :delay="0.08">
+              <div class="relative aspect-[4/5] overflow-hidden bg-ink">
+                <img
+                  :src="person.image"
+                  alt=""
+                  loading="lazy"
+                  class="size-full object-cover grayscale transition-all duration-500 ease-out group-hover:scale-[1.03] group-hover:grayscale-0"
+                />
+                <div
+                  class="absolute inset-0 bg-gradient-to-t from-ink/70 via-transparent to-transparent"
+                />
+              </div>
+              <h3 class="mt-4 font-display text-2xl">{{ person.name }}</h3>
+              <p class="mt-1 text-xs text-muted">{{ person.role }}</p>
+              <p class="mt-2 text-[10px] text-muted">
+                Fictional concept profile.
+              </p>
+            </ScrollReveal>
           </article>
         </div>
       </AppContainer>
@@ -193,13 +199,15 @@ const heroMeta = [
         <li
           v-for="partner in partners"
           :key="partner.name"
-          class="border-b border-ivory/15 py-5 sm:border-r sm:pr-5 md:border-b-0"
+          class="border-b border-ivory/15 py-5 sm:border-r sm:pr-5 pl-2 md:border-b-0"
         >
-          <span class="block font-display text-xl">{{ partner.name }}</span>
-          <span
-            class="mt-1 block text-[10px] uppercase tracking-[0.2em] text-muted"
-            >{{ partner.discipline }}</span
-          >
+          <ScrollReveal mask :delay="0.08">
+            <span class="block font-display text-xl">{{ partner.name }}</span>
+            <span
+              class="mt-1 block text-[10px] uppercase tracking-[0.2em] text-muted"
+              >{{ partner.discipline }}</span
+            >
+          </ScrollReveal>
         </li>
       </ul>
       <p class="mt-6 text-xs text-muted">

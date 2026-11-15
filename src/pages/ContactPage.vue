@@ -7,6 +7,7 @@ import Eyebrow from "../components/Eyebrow.vue";
 import FormField from "../components/FormField.vue";
 import { projects } from "../data/projects";
 import { team } from "../data/team";
+import ScrollReveal from "../components/ScrollReveal.vue";
 
 type FieldKey =
   | "name"
@@ -63,7 +64,10 @@ const contactBlocks: ReadonlyArray<{
   {
     label: "Enquiries",
     links: [
-      { label: "hello@oakhaven.example", href: "mailto:hello@oakhaven.example" },
+      {
+        label: "hello@oakhaven.example",
+        href: "mailto:hello@oakhaven.example",
+      },
       { label: "+971 00 000 0000", href: "tel:+971000000000" },
     ],
   },
@@ -166,13 +170,15 @@ const submit = () => {
         >
           <Eyebrow>Already an owner?</Eyebrow>
           <div class="mt-4 flex items-center gap-4">
-            <img
-              v-if="ownerCareLead"
-              :src="ownerCareLead.image"
-              alt=""
-              loading="lazy"
-              class="size-14 shrink-0 object-cover grayscale"
-            />
+            <ScrollReveal mask :delay="0.08">
+              <img
+                v-if="ownerCareLead"
+                :src="ownerCareLead.image"
+                alt=""
+                loading="lazy"
+                class="size-14 shrink-0 object-cover grayscale"
+              />
+            </ScrollReveal>
             <div>
               <p class="font-display text-xl font-light">Customer care</p>
               <p class="mt-1 text-xs text-muted">{{ ownerCareLead?.name }}</p>
@@ -240,7 +246,9 @@ const submit = () => {
           </div>
         </div>
 
-        <div class="mt-8 flex flex-wrap items-center gap-6 border-t border-ivory/10 pt-6">
+        <div
+          class="mt-8 flex flex-wrap items-center gap-6 border-t border-ivory/10 pt-6"
+        >
           <AppButton type="submit">Request a viewing</AppButton>
           <p v-if="sent" role="status" class="text-sm text-sand">
             Thank you. Your viewing request has been noted.

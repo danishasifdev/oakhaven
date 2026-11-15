@@ -13,6 +13,7 @@ import {
   projectCurrentMilestone,
 } from "../data/projects";
 import { company } from "../data/company";
+import ScrollReveal from "../components/ScrollReveal.vue";
 
 const filters = ["All", "Delivered", "Building", "Planned"] as const;
 type Filter = (typeof filters)[number];
@@ -113,46 +114,48 @@ const index = (value: number) => String(value).padStart(2, "0");
           :to="`/developments/${project.slug}`"
           class="group block overflow-hidden border border-ivory/10 bg-raised"
         >
-          <div class="relative aspect-[4/5] overflow-hidden">
-            <img
-              :src="project.img"
-              :alt="`${project.name}, ${project.place}`"
-              loading="lazy"
-              class="size-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
-            />
-            <div
-              class="absolute inset-0 bg-gradient-to-t from-ink via-ink/30 to-transparent"
-            />
-            <span
-              class="absolute right-5 top-4 font-display text-5xl text-ivory/40"
-              aria-hidden="true"
-              >{{ index(projectIndex + 1) }}</span
-            >
-            <div class="absolute inset-x-5 bottom-5">
-              <StatusChip :status="project.status" />
-              <h3 class="mt-3 font-display text-4xl font-light">
-                {{ project.name }}
-              </h3>
-              <p class="mt-1 text-sm text-ivory/80">
-                {{ project.place }} · {{ project.homes }}
-              </p>
-              <p class="mt-3 text-xs text-sand">
-                Promised {{ project.promisedHandover }}
-              </p>
-            </div>
-          </div>
-          <div class="p-5">
-            <div class="flex justify-between gap-4 text-xs text-muted">
-              <span>{{ project.milestone }}</span>
-              <span>{{ project.progress }}%</span>
-            </div>
-            <div class="mt-3 h-px bg-ivory/20">
-              <span
-                class="block h-px bg-sand"
-                :style="{ width: `${project.progress}%` }"
+          <ScrollReveal mask :delay="projectIndex * 0.08">
+            <div class="relative aspect-[4/5] overflow-hidden">
+              <img
+                :src="project.img"
+                :alt="`${project.name}, ${project.place}`"
+                loading="lazy"
+                class="size-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
               />
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-ink via-ink/30 to-transparent"
+              />
+              <span
+                class="absolute right-5 top-4 font-display text-5xl text-ivory/40"
+                aria-hidden="true"
+                >{{ index(projectIndex + 1) }}</span
+              >
+              <div class="absolute inset-x-5 bottom-5">
+                <StatusChip :status="project.status" />
+                <h3 class="mt-3 font-display text-4xl font-light">
+                  {{ project.name }}
+                </h3>
+                <p class="mt-1 text-sm text-ivory/80">
+                  {{ project.place }} · {{ project.homes }}
+                </p>
+                <p class="mt-3 text-xs text-sand">
+                  Promised {{ project.promisedHandover }}
+                </p>
+              </div>
             </div>
-          </div>
+            <div class="p-5">
+              <div class="flex justify-between gap-4 text-xs text-muted">
+                <span>{{ project.milestone }}</span>
+                <span>{{ project.progress }}%</span>
+              </div>
+              <div class="mt-3 h-px bg-ivory/20">
+                <span
+                  class="block h-px bg-sand"
+                  :style="{ width: `${project.progress}%` }"
+                />
+              </div>
+            </div>
+          </ScrollReveal>
         </RouterLink>
       </div>
     </AppContainer>
@@ -202,53 +205,59 @@ const index = (value: number) => String(value).padStart(2, "0");
             :key="entry.key"
             class="border-b border-ivory/15"
           >
-            <component
-              :is="entry.href ? 'RouterLink' : 'article'"
-              :to="entry.href"
-              class="group grid items-center gap-5 py-6 md:grid-cols-12 md:gap-6"
-            >
-              <span
-                class="font-display text-xl text-muted md:col-span-1"
-                aria-hidden="true"
-                >{{ index(entryIndex + 1) }}</span
+            <ScrollReveal mask :delay="entryIndex * 0.08">
+              <component
+                :is="entry.href ? 'RouterLink' : 'article'"
+                v-bind="entry.href ? { to: entry.href } : {}"
+                :class="[
+                  'group grid items-center gap-5 py-6 md:grid-cols-12 md:gap-6',
+                  entry.href ? 'cursor-pointer' : 'cursor-default',
+                ]"
               >
-              <span class="flex items-center gap-5 md:col-span-4">
-                <img
-                  :src="entry.image"
-                  :alt="`${entry.name}, ${entry.location}`"
-                  loading="lazy"
-                  class="h-16 w-20 shrink-0 object-cover transition-opacity duration-300 group-hover:opacity-80 md:h-20 md:w-28"
-                />
-                <span>
-                  <span
-                    class="block font-display text-3xl font-light transition-colors group-hover:text-sand md:text-4xl"
-                    >{{ entry.name }}</span
-                  >
-                  <span class="mt-1 block text-xs text-muted md:hidden">{{
-                    entry.location
-                  }}</span>
-                </span>
-              </span>
-              <span class="hidden text-sm text-muted md:col-span-2 md:block">{{
-                entry.location
-              }}</span>
-              <span class="md:col-span-2">
-                <StatusChip :status="entry.status" />
-              </span>
-              <span class="text-sm text-muted md:col-span-2">
-                Promised {{ entry.promised
-                }}<span v-if="entry.delivered" class="block"
-                  >Delivered {{ entry.delivered }}</span
-                >
-              </span>
-              <span class="hidden md:col-span-1 md:block md:text-right">
                 <span
-                  class="inline-grid size-11 place-items-center rounded-full border border-ivory/20 text-lg transition-colors group-hover:border-sand group-hover:text-sand"
+                  class="font-display text-xl text-muted md:col-span-1"
                   aria-hidden="true"
-                  >→</span
+                  >{{ index(entryIndex + 1) }}</span
                 >
-              </span>
-            </component>
+                <span class="flex items-center gap-5 md:col-span-4">
+                  <img
+                    :src="entry.image"
+                    :alt="`${entry.name}, ${entry.location}`"
+                    loading="lazy"
+                    class="h-16 w-20 shrink-0 object-cover transition-opacity duration-300 group-hover:opacity-80 md:h-20 md:w-28"
+                  />
+                  <span>
+                    <span
+                      class="block font-display text-3xl font-light transition-colors group-hover:text-sand md:text-4xl"
+                      >{{ entry.name }}</span
+                    >
+                    <span class="mt-1 block text-xs text-muted md:hidden">{{
+                      entry.location
+                    }}</span>
+                  </span>
+                </span>
+                <span
+                  class="hidden text-sm text-muted md:col-span-2 md:block"
+                  >{{ entry.location }}</span
+                >
+                <span class="md:col-span-2">
+                  <StatusChip :status="entry.status" />
+                </span>
+                <span class="text-sm text-muted md:col-span-2">
+                  Promised {{ entry.promised
+                  }}<span v-if="entry.delivered" class="block"
+                    >Delivered {{ entry.delivered }}</span
+                  >
+                </span>
+                <span class="hidden md:col-span-1 md:block md:text-right">
+                  <span
+                    class="inline-grid size-11 place-items-center rounded-full border border-ivory/20 text-lg transition-colors group-hover:border-sand group-hover:text-sand"
+                    aria-hidden="true"
+                    >→</span
+                  >
+                </span>
+              </component>
+            </ScrollReveal>
           </li>
           <li
             v-if="visibleEntries.length === 0"

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, onBeforeUnmount, ref } from 'vue'
+import { computed, nextTick, onMounted, onBeforeUnmount, ref, watch } from 'vue'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useReducedMotion } from '../composables/useReducedMotion'
@@ -42,9 +42,26 @@ const VIDEO_SECONDS = (FRAME_COUNT - 1) / FRAMES_PER_SECOND
 const HEADING_BAND = 2 / VIDEO_SECONDS
 const root = ref<HTMLElement>()
 const canvas = ref<HTMLCanvasElement>()
+const poster = ref<HTMLImageElement>()
+const posterLoaded = ref(false)
 const progress = ref(0)
 const reduced = useReducedMotion()
-const { ready, seek, start, loaded } = useScrollFrames(canvas, { count: FRAME_COUNT, srcFor: frameSrc })
+const { ready, seek, start, dispose, loaded, loadedCount, complete } = useScrollFrames(canvas, {
+  count: FRAME_COUNT,
+  srcFor: frameSrc,
+})
+// Nothing is painted until every frame has settled: the loader owns the hero
+// until the sequence can be scrubbed end to end. With reduced motion there is
+// no sequence to load, so the single final-frame poster is the gate.
+const mediaReady = computed(() => (reduced.value ? posterLoaded.value : complete.value))
+const loadProgress = computed(() => {
+  if (mediaReady.value) return 1
+  if (reduced.value) return 0
+  return loadedCount.value / FRAME_COUNT
+})
+const loadPercent = computed(() =>
+  mediaReady.value ? 100 : Math.min(99, Math.floor(loadProgress.value * 100)),
+)
 const activeMilestone = computed(() => {
   let index = 0
   for (let i = 0; i < milestones.length; i++) {
@@ -155,7 +172,7 @@ const playThrough = () => {
   const state = { p: Math.min(1, Math.max(0, (window.scrollY - pinStart) / (pinEnd - pinStart))) }
   let commanded = window.scrollY
   const finishWhenLoaded = () => {
-    if (loaded.value < FRAME_COUNT) {
+    if (!complete.value) {
       autoplay = gsap.delayedCall(0.1, finishWhenLoaded)
       return
     }
@@ -187,7 +204,17 @@ const playThrough = () => {
   })
 }
 
+// If the motion preference flips off after mount, pick the sequence up so the
+// loader cannot be left waiting on frames that were never requested.
+watch(reduced, async (isReduced) => {
+  if (isReduced) return
+  await nextTick()
+  start()
+})
+
 onMounted(() => {
+  // A cached poster can finish before the listener is attached.
+  if (poster.value?.complete) posterLoaded.value = true
   if (reduced.value) return
   start()
 
@@ -215,32 +242,82 @@ onBeforeUnmount(() => {
   pinTrigger?.kill()
   gsap.ticker.remove(followPlayhead)
   stopAutoplay()
+  dispose()
 })
 </script>
 
 <template>
-  <section id="top" ref="root" class="relative h-svh overflow-hidden">
+  <section id="top" ref="root" class="relative h-svh overflow-hidden" :aria-busy="!mediaReady">
     <div class="hero-media absolute inset-0 overflow-hidden" :style="{ transform: `scale(${mediaScale})` }">
       <!-- The first sequence frame doubles as the poster: it is fetched with
            priority, the canvas cross-fades over it once frame one is decoded,
            and it is the static fallback when frames cannot load. With reduced
            motion the poster is the final frame, so the page opens on the
-           completed building rather than the first moment of the build. -->
+           completed building rather than the first moment of the build. Both
+           stay transparent until the loader has the whole sequence. -->
       <img
-        class="absolute inset-0 size-full object-cover object-[70%_center] md:object-[65%_center]"
+        ref="poster"
+        class="absolute inset-0 size-full object-cover object-[70%_center] transition-opacity duration-700 ease-out md:object-[65%_center]"
+        :class="mediaReady ? 'opacity-100' : 'opacity-0'"
         :src="frameSrc(reduced ? FRAME_COUNT - 1 : 0)"
         alt=""
         fetchpriority="high"
+        @load="posterLoaded = true"
       />
       <canvas
         v-if="!reduced"
         ref="canvas"
-        class="absolute inset-0 size-full object-cover object-[70%_center] md:object-[65%_center] transition-opacity duration-500"
-        :class="ready ? 'opacity-100' : 'opacity-0'"
+        class="absolute inset-0 size-full object-cover object-[70%_center] transition-opacity duration-500 md:object-[65%_center]"
+        :class="mediaReady && ready ? 'opacity-100' : 'opacity-0'"
         aria-hidden="true"
       ></canvas>
     </div>
     <div class="absolute inset-0 bg-gradient-to-r from-ink/90 via-ink/30 to-transparent" />
+
+    <!-- The loader lives inside the hero section, which is the element GSAP
+         pins, so it stays attached to the scroll position while the sequence
+         loads instead of drifting over the rest of the page. -->
+    <Transition
+      enter-active-class="transition-opacity duration-300 ease-out"
+      leave-active-class="transition-opacity duration-700 ease-out"
+      leave-to-class="opacity-0"
+    >
+      <div
+        v-if="!mediaReady"
+        class="absolute inset-0 z-20 bg-ink"
+      >
+        <AppContainer class="flex h-full items-end justify-end pb-8 md:pb-12">
+          <div
+            class="w-full max-w-[11rem] text-right sm:max-w-[13rem]"
+            role="progressbar"
+            :aria-valuenow="loadPercent"
+            aria-valuemin="0"
+            aria-valuemax="100"
+            aria-label="Loading the Solenne construction sequence"
+          >
+            <div class="flex items-center justify-end gap-2" aria-hidden="true">
+              <span class="size-1 rounded-full bg-sand/80 motion-safe:animate-pulse" />
+              <p class="text-[10px] uppercase tracking-[0.24em] text-sand">Loading</p>
+            </div>
+            <p
+              class="mt-2 font-display text-2xl font-light leading-none tabular-nums text-ivory md:text-3xl"
+              aria-hidden="true"
+            >
+              {{ loadPercent }}<span class="ml-0.5 align-top text-[0.55em] text-muted">%</span>
+            </p>
+            <div class="mt-3 h-px w-full overflow-hidden bg-ivory/15" aria-hidden="true">
+              <div
+                class="h-full bg-sand transition-[width] duration-500 ease-out"
+                :style="{ width: `${Math.max(2, loadProgress * 100)}%` }"
+              />
+            </div>
+            <p class="mt-3 text-[9px] uppercase tracking-[0.2em] text-muted md:text-[10px]" aria-hidden="true">
+              Solenne · Construction sequence
+            </p>
+          </div>
+        </AppContainer>
+      </div>
+    </Transition>
 
     <AppContainer class="relative z-10 flex h-full flex-col justify-center">
       <div class="max-w-[76%] md:max-w-none">
